@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sys.classes;
+package br.com.sys.model.bean;
+
+import br.com.sys.model.bean.Pessoa;
 
 /**
  *
@@ -13,18 +15,8 @@ public class Usuario extends Pessoa{
        
     private String cargo;
     private String login;
-    private String senha;
-
-    public Usuario(String nome, String email, String cargo, String login, String senha) {
-        this.nome = nome;
-        this.email = email;
-        this.cargo = cargo;
-        this.login = login;
-        this.senha = senha;
-    }
-    
-    
-
+    private String senha; 
+   
     public String getCargo() {
         return cargo;
     }

@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sys.classes;
+package br.com.sys.model.bean;
+import br.com.sys.model.bean.Divida;
 import java.text.DateFormat;
 /**
  *
@@ -15,14 +16,7 @@ public class Pagamento {
     private Divida divida;
     private DateFormat dataPagamento; //verificar o uso correto da classe de data.
     private double valorPago;
-
-    public Pagamento(int id, Divida divida, DateFormat dataPagamento, double valorPago) {
-        this.id = id;
-        this.divida = divida;
-        this.dataPagamento = dataPagamento;
-        this.valorPago = valorPago;
-    }
-    
+   
     public int getId() {
         return id;
     }

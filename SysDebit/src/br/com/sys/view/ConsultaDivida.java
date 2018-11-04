@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sys.pacote;
+package br.com.sys.view;
 
 /**
  *
@@ -55,7 +55,6 @@ public class ConsultaDivida extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(640, 480));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N

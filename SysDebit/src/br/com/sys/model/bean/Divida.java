@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sys.classes;
+package br.com.sys.model.bean;
 
+import br.com.sys.model.bean.Cliente;
 import java.text.DateFormat;
 
 /**
@@ -14,18 +15,9 @@ import java.text.DateFormat;
 public class Divida {
     
     private int codigo;
-    private Credor credor;
+    private Cliente cliente;
     private DateFormat dataAtualizacao; //verificar o uso correto da classe de data.
     private double valorDivida;
-    private Devedor devedor;
-
-    public Divida(int codigo, Credor credor, DateFormat dataAtualizacao, double valorDivida, Devedor devedor) {
-        this.codigo = codigo;
-        this.credor = credor;
-        this.dataAtualizacao = dataAtualizacao;
-        this.valorDivida = valorDivida;
-        this.devedor = devedor;
-    }
 
     public int getCodigo() {
         return codigo;
@@ -35,12 +27,12 @@ public class Divida {
         this.codigo = codigo;
     }
 
-    public Credor getCredor() {
-        return credor;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setCredor(Credor credor) {
-        this.credor = credor;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public DateFormat getDataAtualizacao() {
@@ -57,13 +49,5 @@ public class Divida {
 
     public void setValorDivida(double valorDivida) {
         this.valorDivida = valorDivida;
-    }
-
-    public Devedor getDevedor() {
-        return devedor;
-    }
-
-    public void setDevedor(Devedor devedor) {
-        this.devedor = devedor;
     }
 }

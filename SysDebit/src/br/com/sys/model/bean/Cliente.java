@@ -3,29 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sys.classes;
+package br.com.sys.model.bean;
 
 /**
  *
  * @author victorramide
  */
-public class Devedor extends Pessoa{
-    
+public class Cliente extends Pessoa{
     private int id;
     private String endereco;
     private String uf;
     private String telefone;
     private String documento;
-
-    public Devedor(String nome, String email, int id, String endereco, String uf, String telefone, String documento) {
-        this.nome = nome;
-        this.email = email;
-        this.id = id;
-        this.endereco = endereco;
-        this.uf = uf;
-        this.telefone = telefone;
-        this.documento = documento;
-    }
+    private String tipo;
 
     public int getId() {
         return id;
@@ -81,5 +71,13 @@ public class Devedor extends Pessoa{
 
     public void setEmail(String email) {
         this.email = email;
-    }    
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 }
