@@ -5,8 +5,7 @@
  */
 package br.com.sys.model.bean;
 
-import br.com.sys.model.bean.Cliente;
-import java.text.DateFormat;
+import java.sql.Date;
 
 /**
  *
@@ -15,8 +14,9 @@ import java.text.DateFormat;
 public class Divida {
     
     private int codigo;
-    private Cliente cliente;
-    private DateFormat dataAtualizacao; //verificar o uso correto da classe de data.
+    private Cliente credor;
+    private Cliente devedor;
+    private Date dataAtualizacao;
     private double valorDivida;
 
     public int getCodigo() {
@@ -27,19 +27,27 @@ public class Divida {
         this.codigo = codigo;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Cliente getCredor() {
+        return credor;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setCredor(Cliente credor) {
+        this.credor = credor;
+    }
+    
+    public Cliente getDevedor() {
+        return devedor;
     }
 
-    public DateFormat getDataAtualizacao() {
+    public void setCliente(Cliente devedor) {
+        this.devedor = devedor;
+    }
+
+    public Date getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(DateFormat dataAtualizacao) {
+    public void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 
@@ -49,5 +57,5 @@ public class Divida {
 
     public void setValorDivida(double valorDivida) {
         this.valorDivida = valorDivida;
-    }
+    }    
 }

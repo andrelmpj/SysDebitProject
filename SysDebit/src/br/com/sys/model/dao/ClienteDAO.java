@@ -9,9 +9,10 @@ import br.com.sys.connection.ConnectionFactory;
 import br.com.sys.model.bean.Cliente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,9 +42,35 @@ public class ClienteDAO {
             JOptionPane.showMessageDialog(null, "Erro ao salvar: "+ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
-        }
-        
-                
+        }          
     }
-    
+    public List<Cliente> read(){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Cliente> clientes = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM cliente");
+            rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setDocumento(rs.getString("documento"));
+                cliente.setEndereco(rs.getString("endereco"));
+                cliente.setUf(rs.getString("uf"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setTipo(rs.getString("tipo"));
+                cliente.setEmail(rs.getString("email"));
+                clientes.add(cliente);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar os clientes: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return clientes;
+    }
 }

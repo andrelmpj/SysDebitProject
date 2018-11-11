@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package br.com.sys.model.bean;
-import br.com.sys.model.bean.Divida;
-import java.text.DateFormat;
+import java.sql.Date;
+
 /**
  *
  * @author victorramide
@@ -14,7 +14,7 @@ public class Pagamento {
     
     private int id;
     private Divida divida;
-    private DateFormat dataPagamento; //verificar o uso correto da classe de data.
+    private Date dataPagamento; //verificar o uso correto da classe de data.
     private double valorPago;
    
     public int getId() {
@@ -33,11 +33,11 @@ public class Pagamento {
         this.divida = divida;
     }
 
-    public DateFormat getDataPagamento() {
+    public Date getDataPagamento() {
         return dataPagamento;
     }
 
-    public void setDataPagamento(DateFormat dataPagamento) {
+    public void setDataPagamento(Date dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 

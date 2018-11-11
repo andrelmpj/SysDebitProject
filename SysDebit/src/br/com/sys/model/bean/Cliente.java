@@ -9,8 +9,10 @@ package br.com.sys.model.bean;
  *
  * @author victorramide
  */
-public class Cliente extends Pessoa{
+public class Cliente{
     private int id;
+    private String nome;
+    private String email;
     private String endereco;
     private String uf;
     private String telefone;
@@ -24,7 +26,15 @@ public class Cliente extends Pessoa{
     public void setId(int id) {
         this.id = id;
     }
-
+    
+    public String getNome(){
+        return nome;
+    }
+    
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+    
     public String getEndereco() {
         return endereco;
     }
@@ -55,14 +65,6 @@ public class Cliente extends Pessoa{
 
     public void setDocumento(String documento) {
         this.documento = documento;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getEmail() {

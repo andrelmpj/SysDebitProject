@@ -5,14 +5,14 @@
  */
 package br.com.sys.model.bean;
 
-import br.com.sys.model.bean.Pessoa;
-
 /**
  *
  * @author victorramide
  */
-public class Usuario extends Pessoa{
-       
+public class Usuario{
+    
+    private String nome;
+    private String email;
     private String cargo;
     private String login;
     private String senha; 
