@@ -39,7 +39,7 @@ public class Divida {
         return devedor;
     }
 
-    public void setCliente(Cliente devedor) {
+    public void setDevedor(Cliente devedor) {
         this.devedor = devedor;
     }
 

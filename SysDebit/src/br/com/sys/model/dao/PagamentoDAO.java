@@ -8,6 +8,7 @@ package br.com.sys.model.dao;
 import br.com.sys.connection.ConnectionFactory;
 import br.com.sys.model.bean.Cliente;
 import br.com.sys.model.bean.Divida;
+import br.com.sys.model.bean.Pagamento;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -15,49 +16,49 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static javax.management.Query.div;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author victo
+ * @author ANDRE
  */
-public class DividaDAO {
-    
-    public void create(Divida d){
-        
+public class PagamentoDAO {
+    public void create(Pagamento p){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO divida (id, credor, devedor, data_atualizacao, valor_divida) VALUES (?,?,?,?)");
-            stmt.setInt(1, d.getCodigo());
-            stmt.setInt(2, d.getCredor().getId());
-            stmt.setInt(3, d.getDevedor().getId());
-            stmt.setString(4, d.getDataAtualizacao().toString());
-            stmt.setDouble(5, d.getValorDivida());
+            stmt = con.prepareStatement("INSERT INTO pagamento ( divida, dataPagamento, valorPago) "
+                    + ""
+                    + "VALUES (?,?,?)");
             
-        JOptionPane.showMessageDialog(null, "Dívida adcionada com sucesso!");
+            stmt.setString(2, p.getDivida().toString());
+            stmt.setString(3, p.getDataPagamento().toString());
+            stmt.setDouble(4, p.getValorPago());
+            
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao adicionar "+ex);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar: "+ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
-        }    
+        }          
     }
     
-    public void update(Divida d) { 
+    public void update(Pagamento p) { 
         Connection con = ConnectionFactory.getConnection(); 
         PreparedStatement stmt = null; 
         
         try { 
             
-            stmt = con.prepareStatement("UPDATE divida SET credor = ? , devedor = ? , data_atualizacao = ?, valor_divida = ? WHERE id = ? ");
-            stmt.setInt(1, d.getCredor().getId());
-            stmt.setInt(2, d.getDevedor().getId());
-            stmt.setString(3, d.getDataAtualizacao().toString());
-            stmt.setDouble(4, d.getValorDivida());
-            stmt.setInt(5, d.getCodigo());
+            stmt = con.prepareStatement("UPDATE pagamento SET divida = ? , dataPagamento = ? , valorPago = ?, WHERE id = ? ");
+            stmt.setInt(1, p.getDivida().getCodigo());
+            stmt.setDate(2, p.getDataPagamento());
+            stmt.setDouble(3, p.getValorPago());
+          
             
         JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
         } catch (SQLException ex) {
@@ -65,28 +66,26 @@ public class DividaDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }     
-    
-    
 }
     
-      public List<Divida> read(){
+        public List<Pagamento> read(){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        List<Divida> divida = new ArrayList<>();
+        List<Pagamento> pagamentos = new ArrayList<>();
         try {
-            stmt = con.prepareStatement("SELECT * FROM divida");
+            stmt = con.prepareStatement("SELECT * FROM pagamento");
             rs = stmt.executeQuery();
             
             while (rs.next()){
-                Divida div = new Divida();
-                div.setCodigo(rs.getInt("id"));
-                div.setCredor((Cliente) rs.getObject("credor"));
-                div.setDevedor((Cliente) rs.getObject("devedor"));
-                div.setDataAtualizacao((Date) rs.getObject("data"));
-                div.setValorDivida(rs.getDouble("valorDivida"));
-                divida.add(div);
+                Pagamento pag = new Pagamento();
+                pag.setDivida((Divida) rs.getObject("divida"));
+                pag.setDataPagamento( rs.getDate("data"));
+                pag.setValorPago(rs.getDouble("valorPago"));
+                
+                pagamentos
+                        .add(pag);
                 
                                      
             }
@@ -95,16 +94,16 @@ public class DividaDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return divida;
+        return pagamentos;
     }
       
-      public void delete(Divida d) { 
+        public void delete(Pagamento p) { 
           Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("DELETE FROM divida WHERE id = ?) ");
-            stmt.setInt(1, d.getCodigo());
+            stmt = con.prepareStatement("DELETE FROM pagamento WHERE id = ?) ");
+            stmt.setInt(1, p.getId());
                     
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
         } catch (SQLException ex) {
@@ -113,6 +112,15 @@ public class DividaDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }    
     
-}
- 
-}
+ }
+        
+        
+        
+  }
+    
+
+
+    
+    
+   
+

@@ -5,11 +5,13 @@
  */
 package br.com.sys.model.bean;
 
+import java.io.Serializable;
+
 /**
  *
  * @author victorramide
  */
-public class Cliente{
+public class Cliente implements Serializable{
     private int id;
     private String nome;
     private String email;

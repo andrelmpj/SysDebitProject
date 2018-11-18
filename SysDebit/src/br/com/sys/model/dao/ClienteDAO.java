@@ -26,7 +26,9 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO cliente (nome, endereco, uf, telefone, documento, email, tipo) VALUES (?,?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO cliente (nome, endereco, uf, telefone, documento, email, tipo) "
+                    + ""
+                    + "VALUES (?,?,?,?,?,?,?)");
             stmt.setString(1, c.getNome());
             stmt.setString(2, c.getEndereco());
             stmt.setString(3, c.getUf());
@@ -74,7 +76,47 @@ public class ClienteDAO {
         return clientes;
     }
     
-    public void update_cli() { 
+    public void update_cli(Cliente c) {
+                Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        
+        try {
+            stmt = con.prepareStatement("UPDATE cliente SET nome = ?, endereco = ?, uf = ?, telefone = ?,"
+                    + " documento = ?, email = ? , tipo = ? WHERE id = ?) "
+                   );
+            stmt.setString(1, c.getNome());
+            stmt.setString(2, c.getEndereco());
+            stmt.setString(3, c.getUf());
+            stmt.setString(4, c.getTelefone());
+            stmt.setString(5, c.getDocumento());
+            stmt.setString(6, c.getEmail());
+            stmt.setString(7, c.getTipo());
+            stmt.setInt(8, c.getId());
+            
+            stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }     
     
 }
+    public void delete(Cliente c) { 
+          Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        
+        try {
+            stmt = con.prepareStatement("DELETE FROM cliente WHERE id = ?) ");
+            stmt.setInt(1, c.getId());
+                    
+            JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir"+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }     
+        
+    }
 }

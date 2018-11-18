@@ -5,6 +5,9 @@
  */
 package br.com.sys.view;
 
+import javax.swing.JDesktopPane;
+import javax.swing.JLabel;
+
 /**
  *
  * @author ANDRE
@@ -40,7 +43,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Pagamento = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         Desktop = new javax.swing.JDesktopPane();
-        jLabel5 = new javax.swing.JLabel();
+        lblSis = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -157,24 +160,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sys/imagens/sisdebt 350x200.png"))); // NOI18N
+        lblSis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sys/imagens/sisdebt 350x200.png"))); // NOI18N
 
-        Desktop.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        Desktop.setLayer(lblSis, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
         Desktop.setLayout(DesktopLayout);
         DesktopLayout.setHorizontalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DesktopLayout.createSequentialGroup()
-                .addContainerGap(168, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(126, 126, 126))
+                .addContainerGap(155, Short.MAX_VALUE)
+                .addComponent(lblSis)
+                .addGap(139, 139, 139))
         );
         DesktopLayout.setVerticalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DesktopLayout.createSequentialGroup()
-                .addGap(181, 181, 181)
-                .addComponent(jLabel5)
+                .addGap(199, 199, 199)
+                .addComponent(lblSis, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -208,6 +211,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         TelaUsuario tela = new TelaUsuario();
         tela.setVisible(true);
+        lblSis.setVisible(false);
         Desktop.add(tela);
     }//GEN-LAST:event_btnUserActionPerformed
 
@@ -215,14 +219,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         TelaCliente tela = new TelaCliente();
         tela.setVisible(true);
+        lblSis.setVisible(false);
         Desktop.add(tela); 
        
     }//GEN-LAST:event_btnClientActionPerformed
 
+    public static JDesktopPane getDesktop() {
+        return Desktop;
+    }
+
+    public static JLabel getLblSis() {
+        return lblSis;
+    }
+
+    
+    
     private void btnDividaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDividaActionPerformed
         // TODO add your handling code here:
         TelaDivida tela = new TelaDivida();
         tela.setVisible(true);
+        lblSis.setVisible(false);
         Desktop.add(tela);
     }//GEN-LAST:event_btnDividaActionPerformed
 
@@ -230,6 +246,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         TelaPagamento tela = new TelaPagamento();
         tela.setVisible(true);
+        lblSis.setVisible(false);
         Desktop.add(tela);
     }//GEN-LAST:event_btnPagActionPerformed
 
@@ -237,6 +254,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         TelaFaturamento tela = new TelaFaturamento();
         tela.setVisible(true);
+        lblSis.setVisible(false);
         Desktop.add(tela);
     }//GEN-LAST:event_btnFatActionPerformed
 
@@ -276,7 +294,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane Desktop;
+    private static javax.swing.JDesktopPane Desktop;
     private javax.swing.JLabel Pagamento;
     private javax.swing.JButton btnClient;
     private javax.swing.JButton btnDivida;
@@ -287,11 +305,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private static javax.swing.JLabel lblSis;
     // End of variables declaration//GEN-END:variables
 }
