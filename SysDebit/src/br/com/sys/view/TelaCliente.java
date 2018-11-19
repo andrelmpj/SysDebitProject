@@ -8,6 +8,8 @@ package br.com.sys.view;
 import br.com.sys.model.bean.Cliente;
 import br.com.sys.model.bean.ClienteTableModel;
 import br.com.sys.model.dao.ClienteDAO;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,11 +18,13 @@ import br.com.sys.model.dao.ClienteDAO;
 public class TelaCliente extends javax.swing.JInternalFrame {
     ClienteTableModel tableModel = new ClienteTableModel();
 
+    List<Cliente> clientes;
     /**
      * Creates new form TelaCliente
      */
     public TelaCliente() {
         initComponents();
+        clientes = new ArrayList<Cliente>();
         tableCliente.setModel(tableModel);
     }
 
@@ -67,6 +71,24 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Cliente");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                carregarLista(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                aoAbrir(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("ID:");
@@ -310,10 +332,12 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         c.setEmail(txtEmailCli.getText());
         c.setTipo((String) txtTipoCred.getSelectedItem());
            
-        //tableModel.addRow(c);
+        clientes.add(c);
+        
         
         dao.create(c);
-        
+        tableModel.setDados(clientes);
+        tableCliente.revalidate();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -334,6 +358,19 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void carregarLista(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_carregarLista
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_carregarLista
+
+    private void aoAbrir(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_aoAbrir
+        // TODO add your handling code here:
+        ClienteDAO dao = new ClienteDAO();
+        clientes = dao.read();
+        tableModel.setDados(clientes);
+        tableCliente.revalidate();
+    }//GEN-LAST:event_aoAbrir
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

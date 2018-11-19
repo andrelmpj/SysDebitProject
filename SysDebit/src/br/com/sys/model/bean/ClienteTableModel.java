@@ -18,6 +18,11 @@ public class ClienteTableModel extends AbstractTableModel {
     private List<Cliente> dados = new ArrayList();
     private String[] colunas = {"ID","Nome","Email","Tipo"};
 
+    public void setDados(List<Cliente> dados) {
+        this.dados = dados;
+    }
+
+    
     @Override
     public String getColumnName(int column) {
         return colunas[column];
