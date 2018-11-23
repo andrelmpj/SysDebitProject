@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import br.com.sys.view.TelaCliente;
 
 /**
  *
@@ -75,6 +76,37 @@ public class ClienteDAO {
         }
         return clientes;
     }
+    public List<Cliente> readForName(String nome){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Cliente> clientes = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM cliente WHERE nome LIKE ?");
+            stmt.setString(1, "%"+nome+"%");
+            rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setDocumento(rs.getString("documento"));
+                cliente.setEndereco(rs.getString("endereco"));
+                cliente.setUf(rs.getString("uf"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setTipo(rs.getString("tipo"));
+                cliente.setEmail(rs.getString("email"));
+                clientes.add(cliente);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar os clientes: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return clientes;
+    }
+    
     
     public void update_cli(Cliente c) {
                 Connection con = ConnectionFactory.getConnection();
@@ -108,8 +140,9 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("DELETE FROM cliente WHERE id = ?) ");
+            stmt = con.prepareStatement("DELETE FROM cliente WHERE id =  ");
             stmt.setInt(1, c.getId());
+            stmt.executeUpdate();
                     
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
         } catch (SQLException ex) {
@@ -119,4 +152,9 @@ public class ClienteDAO {
         }     
         
     }
+
+    
+
+
+   
 }

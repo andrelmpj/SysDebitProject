@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.sys.model.bean;
 
 import java.util.ArrayList;
@@ -12,11 +7,14 @@ import javax.swing.table.AbstractTableModel;
 /**
  *
  * @author ANDRE
- */
+ *
+ **/
+
+
 public class ClienteTableModel extends AbstractTableModel {
     
     private List<Cliente> dados = new ArrayList();
-    private String[] colunas = {"ID","Nome","Email","Tipo"};
+    private String[] colunas = {"ID","Nome","Email","Telefone"};
 
     public void setDados(List<Cliente> dados) {
         this.dados = dados;
@@ -48,7 +46,7 @@ public class ClienteTableModel extends AbstractTableModel {
             case 2: 
                 return dados.get(linhas).getEmail();
             case 3: 
-                return dados.get(linhas).getTipo();
+                return dados.get(linhas).getTelefone();
         }
         
         return null;

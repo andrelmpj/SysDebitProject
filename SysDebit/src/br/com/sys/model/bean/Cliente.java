@@ -16,10 +16,18 @@ public class Cliente implements Serializable{
     private String nome;
     private String email;
     private String endereco;
+    private String cidade;
     private String uf;
     private String telefone;
     private String documento;
     private String tipo;
+
+    public String getCidade() {
+        return cidade;
+    }
+    
+    
+    
 
     public int getId() {
         return id;
@@ -83,5 +91,9 @@ public class Cliente implements Serializable{
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 }
