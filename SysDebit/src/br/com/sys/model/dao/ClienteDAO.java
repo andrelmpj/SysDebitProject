@@ -27,16 +27,17 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO cliente (nome, endereco, uf, telefone, documento, email, tipo) "
+            stmt = con.prepareStatement("INSERT INTO cliente (nome, endereco, cidade, uf, telefone, documento, email, tipo) "
                     + ""
-                    + "VALUES (?,?,?,?,?,?,?)");
+                    + "VALUES (?,?,?,?,?,?,?,?)");
             stmt.setString(1, c.getNome());
             stmt.setString(2, c.getEndereco());
-            stmt.setString(3, c.getUf());
-            stmt.setString(4, c.getTelefone());
-            stmt.setString(5, c.getDocumento());
-            stmt.setString(6, c.getEmail());
-            stmt.setString(7, c.getTipo());
+            stmt.setString(3, c.getCidade());
+            stmt.setString(4, c.getUf());
+            stmt.setString(5, c.getTelefone());
+            stmt.setString(6, c.getDocumento());
+            stmt.setString(7, c.getEmail());
+            stmt.setString(8, c.getTipo());
             
             stmt.executeUpdate();
             
@@ -97,6 +98,7 @@ public class ClienteDAO {
                 cliente.setTelefone(rs.getString("telefone"));
                 cliente.setTipo(rs.getString("tipo"));
                 cliente.setEmail(rs.getString("email"));
+                cliente.setCidade(rs.getString("cidade"));
                 clientes.add(cliente);
             }
         } catch (SQLException ex) {
@@ -113,16 +115,16 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("UPDATE cliente SET nome = ?, endereco = ?, uf = ?, telefone = ?,"
-                    + " documento = ?, email = ? , tipo = ? WHERE id = ?) "
+            stmt = con.prepareStatement("UPDATE cliente SET nome = ?, endereco = ?, cidade = ?, uf = ?, telefone = ?,"
+                    + " documento = ?, email = ?  WHERE id = ?"
                    );
             stmt.setString(1, c.getNome());
             stmt.setString(2, c.getEndereco());
-            stmt.setString(3, c.getUf());
-            stmt.setString(4, c.getTelefone());
-            stmt.setString(5, c.getDocumento());
-            stmt.setString(6, c.getEmail());
-            stmt.setString(7, c.getTipo());
+            stmt.setString(3, c.getCidade());
+            stmt.setString(4, c.getUf());
+            stmt.setString(5, c.getTelefone());
+            stmt.setString(6, c.getDocumento());
+            stmt.setString(7, c.getEmail());
             stmt.setInt(8, c.getId());
             
             stmt.executeUpdate();
@@ -140,10 +142,10 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("DELETE FROM cliente WHERE id =  ");
-            stmt.setInt(1, c.getId());
-            stmt.executeUpdate();
-                    
+            stmt = con.prepareStatement("delete from cliente where id=?");
+            stmt.setInt(1, c.getId( ));
+            stmt.executeUpdate( );
+            
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir"+ex);
