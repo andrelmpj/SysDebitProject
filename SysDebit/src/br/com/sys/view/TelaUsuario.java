@@ -44,6 +44,22 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             });
         }
     }
+    public void readJTableForName(String nome) {
+        
+        DefaultTableModel modelo = (DefaultTableModel) tableUser.getModel();
+        modelo.setNumRows(0);
+        UsuarioDAO udao = new UsuarioDAO();
+
+        for (Usuario u : udao.readForName(nome)) {
+           modelo.addRow(new Object[]{
+                u.getNome(),
+                u.getCargo(),
+                u.getEmail(),
+                u.getLogin(),
+                u.getSenha()
+            });
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -288,7 +304,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         UsuarioDAO dao = new UsuarioDAO();
         u.setNome(txtNomeUser.getText());
         u.setLogin(txtUser.getText());
-        u.setSenha(txtSenha.getText());
+        u.setSenha(new String (txtSenha.getPassword()));
         u.setEmail(txtEmailUser.getText());
         u.setCargo((String) txtCargoUser.getSelectedItem());
         dao.create(u);
@@ -344,8 +360,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
     private void btnPesqActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqActionPerformed1
         // TODO add your handling code here:
-        
-
+        readJTableForName(txtPesquisarUsuario.getText());
     }//GEN-LAST:event_btnPesqActionPerformed1
 
 

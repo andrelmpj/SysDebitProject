@@ -81,7 +81,7 @@ public class UsuarioDAO {
         
         List<Usuario> usuario = new ArrayList<>();
         try {
-            stmt = con.prepareStatement("SELECT * FROM pagamento");
+            stmt = con.prepareStatement("SELECT * FROM usuario");
             rs = stmt.executeQuery();
             
             while (rs.next()){
@@ -92,9 +92,7 @@ public class UsuarioDAO {
                 user.setLogin(rs.getString("login"));
                 user.setSenha(rs.getString("senha"));
                 
-                usuario.add(user);
-                
-                                     
+                usuario.add(user);                    
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao listar as dividas: "+ex);
@@ -102,7 +100,62 @@ public class UsuarioDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return usuario;
-    }
+        }
+        
+        public List<Usuario> readForName(String nome){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Usuario> usuario = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM usuario WHERE nome LIKE ?");
+            stmt.setString(1, "%"+nome+"%");
+            rs = stmt.executeQuery();
+            
+                while (rs.next()){
+                Usuario user = new Usuario();
+                user.setNome(rs.getString("nome"));
+                user.setEmail( rs.getString("email"));
+                user.setCargo(rs.getString("cargo"));
+                user.setLogin(rs.getString("login"));
+                user.setSenha(rs.getString("senha"));
+                
+                usuario.add(user);                       
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar os usuarios: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return usuario;
+        }
+        
+        public boolean checkLogin(String login, String senha){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        boolean check = false;
+        
+        try {
+            stmt = con.prepareStatement("SELECT * FROM usuario WHERE login = ? and senha = ?");
+            stmt.setString(1, login);
+            stmt.setString(2, senha);
+            
+            rs = stmt.executeQuery();
+            
+            if (rs.next()){
+                check = true;
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: verifique se digitou o login e a senha corretamente.: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return check;
+        }
       
         public void delete(Usuario u) { 
           Connection con = ConnectionFactory.getConnection();

@@ -31,9 +31,9 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         initComponents();
         DefaultTableModel modelo = (DefaultTableModel) tableDivida.getModel();
         tableDivida.setRowSorter(new TableRowSorter(modelo));
-        readTable();
         preencherJComboBox();
     }
+    
     public void readTable() { 
         DefaultTableModel modelo = (DefaultTableModel) tableDivida.getModel();
         modelo.setNumRows(0);
@@ -46,6 +46,25 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                 d.getDevedor(),
                 d.getValorDivida(),
                 d.getDataAtualizacao(),
+                d.isPago()
+            });
+        }
+    }
+    
+    public void readJTableDividasNaoPagas() {
+        
+        DefaultTableModel modelo = (DefaultTableModel) tableDivida.getModel();
+        modelo.setNumRows(0);
+        DividaDAO ddao = new DividaDAO();
+
+        for (Divida d : ddao.readDividasNaoPagas()) {
+            modelo.addRow(new Object[]{
+                d.getCodigo(),
+                d.getCredor(),
+                d.getDevedor(),
+                d.getValorDivida(),
+                d.getDataAtualizacao(),
+                d.isPago()
             });
         }
     }
@@ -187,16 +206,26 @@ public class TelaDivida extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Credor", "Devedor", "Valor", "Data"
+                "ID", "Credor", "Devedor", "Valor", "Data", "Pago"
             }
         ));
         jScrollPane2.setViewportView(tableDivida);
 
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton4.setText("Listar dívidas");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton5.setText("Exibir dívidas em aberto");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         txtDivData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         txtDivData.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -386,6 +415,15 @@ public class TelaDivida extends javax.swing.JInternalFrame {
     private void cmbCredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCredorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbCredorActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        readTable();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;

@@ -43,6 +43,20 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
             });
         }
     }
+        public void readJTableIdDaDivida(int divida) {
+        
+        DefaultTableModel modelo = (DefaultTableModel) tablePagamento.getModel();
+        modelo.setNumRows(0);
+        PagamentoDAO pdao = new PagamentoDAO();
+
+        for (Pagamento p : pdao.readForIdDivida(divida)) {
+            modelo.addRow(new Object[]{
+                p.getDivida(),
+                p.getDataPagamento(),
+                p.getValorPago(),
+            });
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -305,7 +319,7 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
 
     private void btnPesquisarActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed1
         // TODO add your handling code here:
-
+        readJTableIdDaDivida(Integer.parseInt(txtPesqPag.getText()));
     }//GEN-LAST:event_btnPesquisarActionPerformed1
 
 

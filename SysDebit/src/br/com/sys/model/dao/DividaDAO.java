@@ -31,12 +31,13 @@ public class DividaDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO divida (id, credor, devedor, data_atualizacao, valor_divida) VALUES (?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO divida (id, credor, devedor, data_atualizacao, valor_divida, pago) VALUES (?,?,?,?,?)");
             stmt.setInt(1, d.getCodigo());
             stmt.setInt(2, d.getCredor().getId());
             stmt.setInt(3, d.getDevedor().getId());
             stmt.setString(4, d.getDataAtualizacao().toString());
             stmt.setDouble(5, d.getValorDivida());
+            stmt.setBoolean(6, d.isPago());
             
         JOptionPane.showMessageDialog(null, "Dívida adcionada com sucesso!");
         } catch (SQLException ex) {
@@ -69,7 +70,7 @@ public class DividaDAO {
     
 }
     
-      public List<Divida> read(){
+    public List<Divida> read(){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -86,6 +87,7 @@ public class DividaDAO {
                 div.setDevedor((Cliente) rs.getObject("devedor"));
                 div.setDataAtualizacao((Date) rs.getObject("data"));
                 div.setValorDivida(rs.getDouble("valorDivida"));
+                div.setPago(rs.getBoolean("pago"));
                 divida.add(div);
                 
                                      
@@ -97,6 +99,62 @@ public class DividaDAO {
         }
         return divida;
     }
+      
+    public List<Divida> readDividasNaoPagas(){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Divida> divida = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM divida WHERE pago = false");
+            rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Divida div = new Divida();
+                div.setCodigo(rs.getInt("id"));
+                div.setCredor((Cliente) rs.getObject("credor"));
+                div.setDevedor((Cliente) rs.getObject("devedor"));
+                div.setDataAtualizacao((Date) rs.getObject("data"));
+                div.setValorDivida(rs.getDouble("valorDivida"));
+                div.setPago(rs.getBoolean("pago"));
+                divida.add(div);             
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar as dividas não pagas: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return divida;
+    }
+    
+        public List<Divida> readDividasFaturadas(){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Divida> divida = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM divida WHERE pago = true");
+            rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Divida div = new Divida();
+                div.setCodigo(rs.getInt("id"));
+                div.setCredor((Cliente) rs.getObject("credor"));
+                div.setDevedor((Cliente) rs.getObject("devedor"));
+                div.setDataAtualizacao((Date) rs.getObject("data"));
+                div.setValorDivida(rs.getDouble("valorDivida"));
+                div.setPago(rs.getBoolean("pago"));
+                divida.add(div);             
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar as dividas faturadas: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return divida;
+    } 
       
       public void delete(Divida d) { 
           Connection con = ConnectionFactory.getConnection();

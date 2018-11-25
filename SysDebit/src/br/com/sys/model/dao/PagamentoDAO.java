@@ -67,8 +67,7 @@ public class PagamentoDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }     
 }
-    
-        public List<Pagamento> read(){
+    public List<Pagamento> read(){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -84,13 +83,39 @@ public class PagamentoDAO {
                 pag.setDataPagamento( rs.getDate("data"));
                 pag.setValorPago(rs.getDouble("valorPago"));
                 
-                pagamentos
-                        .add(pag);
+                pagamentos.add(pag);
                 
                                      
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar as dividas: "+ex);
+            JOptionPane.showMessageDialog(null, "Erro ao listar os pagamentos: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return pagamentos;
+    }
+    
+        public List<Pagamento> readForIdDivida(int divida){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Pagamento> pagamentos = new ArrayList<>();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM pagamento WHERE divida LIKE ?");
+            stmt.setString(1, "%"+divida+"%");
+            rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Pagamento pag = new Pagamento();
+                pag.setDivida((Divida) rs.getObject("divida"));
+                pag.setDataPagamento( rs.getDate("data"));
+                pag.setValorPago(rs.getDouble("valorPago"));
+                
+                pagamentos.add(pag);                            
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar os pagamentos: "+ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
