@@ -56,11 +56,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 c.getDocumento()
             });
         }
-        
-        
-            
-            
- 
     }
     //método abaixo é usado na pesquisa, inclusive depende de um novo método no DAO dê uma olhada.  
     public void readJTableForName(String nome) {

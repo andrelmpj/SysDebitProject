@@ -18,7 +18,12 @@ public class Divida {
     private Cliente devedor;
     private Date dataAtualizacao;
     private double valorDivida;
+    private boolean pago;
 
+    public Divida() {
+        pago = false;
+    }
+    
     public int getCodigo() {
         return codigo;
     }
@@ -57,5 +62,15 @@ public class Divida {
 
     public void setValorDivida(double valorDivida) {
         this.valorDivida = valorDivida;
-    }    
+    } 
+
+    public boolean isPago() {
+        return pago;
+    }
+
+    public void setPago(boolean pago) {
+        this.pago = pago;
+    }
+    
+    
 }

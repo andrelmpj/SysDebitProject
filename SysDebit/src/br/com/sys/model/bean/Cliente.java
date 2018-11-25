@@ -5,7 +5,9 @@
  */
 package br.com.sys.model.bean;
 
+import br.com.sys.model.dao.ClienteDAO;
 import java.io.Serializable;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -25,9 +27,6 @@ public class Cliente implements Serializable{
     public String getCidade() {
         return cidade;
     }
-    
-    
-    
 
     public int getId() {
         return id;
@@ -95,5 +94,9 @@ public class Cliente implements Serializable{
 
     public void setCidade(String cidade) {
         this.cidade = cidade;
+    }
+    
+    public String toString(){
+       return this.nome; 
     }
 }

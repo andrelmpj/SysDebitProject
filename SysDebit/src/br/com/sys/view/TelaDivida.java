@@ -5,6 +5,19 @@
  */
 package br.com.sys.view;
 
+import br.com.sys.model.bean.Cliente;
+import br.com.sys.model.bean.Divida;
+import br.com.sys.model.dao.ClienteDAO;
+import br.com.sys.model.dao.DividaDAO;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author ANDRE
@@ -16,8 +29,51 @@ public class TelaDivida extends javax.swing.JInternalFrame {
      */
     public TelaDivida() {
         initComponents();
+        DefaultTableModel modelo = (DefaultTableModel) tableDivida.getModel();
+        tableDivida.setRowSorter(new TableRowSorter(modelo));
+        readTable();
+        preencherJComboBox();
     }
+    public void readTable() { 
+        DefaultTableModel modelo = (DefaultTableModel) tableDivida.getModel();
+        modelo.setNumRows(0);
+        DividaDAO ddao = new DividaDAO();
+        
+        for (Divida d : ddao.read()) {
+            modelo.addRow(new Object[]{
+                d.getCodigo(),
+                d.getCredor(),
+                d.getDevedor(),
+                d.getValorDivida(),
+                d.getDataAtualizacao(),
+            });
+        }
+    }
+    
+    public void preencherJComboBox(){
+	ClienteDAO cdao = new ClienteDAO();
+	for (Cliente cliente : cdao.read()){
+		cmbCredor.addItem(cliente.toString());
+		cmbDevedor.addItem(cliente.toString());
+	}
+    }
+    /*public void readJTableForName(String nome) {
+        
+        DefaultTableModel modelo = (DefaultTableModel) tableDivida.getModel();
+        modelo.setNumRows(0);
+        DividaDAO ddao = new DividaDAO();
 
+        for (Divida d : ddao.read()) {
+
+            modelo.addRow(new Object[]{
+                d.getCodigo(),
+                d.getCredor(),
+                d.getDevedor(),
+                d.getValorDivida(),
+                d.getDataAtualizacao(),
+            });
+        }
+    }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,18 +94,18 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         txtIdDiv = new javax.swing.JTextField();
         txtDivValor = new javax.swing.JTextField();
-        txtDivData = new javax.swing.JTextField();
         cmbCredor = new javax.swing.JComboBox<>();
         cmbDevedor = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnAdicionar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableDivida = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        txtDivData = new javax.swing.JFormattedTextField();
 
         jLabel1.setText("jLabel1");
 
@@ -94,20 +150,37 @@ public class TelaDivida extends javax.swing.JInternalFrame {
             }
         });
 
-        cmbCredor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Victor Râmide da Costa" }));
-
-        cmbDevedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "André Luis Moraes Pereira Junior" }));
+        cmbCredor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCredorActionPerformed(evt);
+            }
+        });
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sys/imagens/sisdebt 185x85.png"))); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("*Campos obrigatórios");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sys/imagens/add.png"))); // NOI18N
+        btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sys/imagens/add.png"))); // NOI18N
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sys/imagens/update.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sys/imagens/del.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         tableDivida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -124,6 +197,14 @@ public class TelaDivida extends javax.swing.JInternalFrame {
 
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton5.setText("Exibir dívidas em aberto");
+
+        txtDivData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        txtDivData.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtDivData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDivDataActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,7 +251,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                 .addContainerGap(80, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(127, 127, 127)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(74, 74, 74)
@@ -205,14 +286,14 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(btnAdicionar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
@@ -222,11 +303,94 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDivValorActionPerformed
 
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        try {
+            // TODO add your handling code here:
+            SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date invoiceDate = formatDate.parse(txtDivData.getText());
+            java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+            
+            Divida d = new Divida();
+            DividaDAO dao = new DividaDAO();
+            d.setCodigo(Integer.parseInt(txtIdDiv.getText()));
+            d.setCredor((Cliente) cmbCredor.getSelectedItem());
+            d.setDevedor((Cliente) cmbDevedor.getSelectedItem());
+            d.setValorDivida(Integer.parseInt(txtDivValor.getText()));
+            d.setDataAtualizacao(sqlDate);
+            dao.create(d);
+            
+            txtIdDiv.setText("");
+            txtDivValor.setText("");
+            txtDivData.setText("");
+            
+            readTable();
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique se o formato da data está correto.", "ERRO AO ADICIONAR", ERROR);
+        }
+        
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void txtDivDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDivDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDivDataActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            // TODO add your handling code here:
+            SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date invoiceDate = formatDate.parse(txtDivData.getText());
+            java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+            
+            if (tableDivida.getSelectedRow() != -1 ) {
+                
+                Divida d = new Divida();
+                DividaDAO dao = new DividaDAO();
+                d.setCodigo((int) tableDivida.getValueAt(tableDivida.getSelectedRow(), 0));
+                d.setCredor((Cliente) cmbCredor.getSelectedItem());
+                d.setDevedor((Cliente) cmbDevedor.getSelectedItem());
+                d.setValorDivida(Integer.parseInt(txtDivValor.getText()));
+                d.setDataAtualizacao(sqlDate);
+                
+                dao.update(d);
+                
+                txtIdDiv.setText("");
+                txtDivValor.setText("");
+                txtDivData.setText("");
+                
+                readTable();
+                
+            }
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Verifique se o formato da data está correto.", "ERRO AO ATUALIZAR", ERROR);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if (tableDivida.getSelectedRow() != -1) {
+        Divida d = new Divida();
+        DividaDAO dao = new DividaDAO();
+        d.setCodigo((int) tableDivida.getValueAt(tableDivida.getSelectedRow(), 0));
+        
+        dao.delete(d);
+        
+        txtIdDiv.setText("");
+        txtDivValor.setText("");
+        txtDivData.setText("");
+        
+        readTable();
+        
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cmbCredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCredorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbCredorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionar;
     private javax.swing.JComboBox<String> cmbCredor;
     private javax.swing.JComboBox<String> cmbDevedor;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -244,7 +408,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable tableDivida;
-    private javax.swing.JTextField txtDivData;
+    private javax.swing.JFormattedTextField txtDivData;
     private javax.swing.JTextField txtDivValor;
     private javax.swing.JTextField txtIdDiv;
     // End of variables declaration//GEN-END:variables
