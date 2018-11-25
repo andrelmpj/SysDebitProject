@@ -10,6 +10,8 @@ import br.com.sys.model.bean.Pagamento;
 import br.com.sys.model.dao.PagamentoDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -245,31 +247,56 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         try {
+            // TODO add your handling code here:
+            Pagamento p = new Pagamento();
+            PagamentoDAO dao = new PagamentoDAO();
+            
             SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
             java.util.Date invoiceDate = formatDate.parse(txtDatPag.getText());
             java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
             
-            Pagamento p = new Pagamento();
-            PagamentoDAO dao = new PagamentoDAO();
-            p.setId(Integer.parseInt(txtIDDividaPag.getText()));
-            p.setValorPago(Integer.parseInt(txtValorPago.getText()));
-            p.setDataPagamento(sqlDate);
-            dao.create(p);
-            
-            Divida d = new Divida();
-            double juros; 
-            if (d.getDataAtualizacao().before(p.getDataPagamento())) {
-                
-            } else {
+            if(p.getDivida().isPago()){
+                JOptionPane.showMessageDialog(null, "Esta dívida já está paga", "ERRO AO PAGAR", ERROR);
+            }else{
+                if (Double.parseDouble(txtValorPago.getText()) < p.getDivida().getValorDivida()){
+                    JOptionPane.showMessageDialog(null, "O valor digitado é inferior ao valor da dívida", "ERRO AO PAGAR", ERROR);
+                }else{
+                    // Se a data de atualização for menor que a data de pagamento.
+                    if(p.getDivida().getDataAtualizacao().compareTo(sqlDate) < 0){
+                        double multa, juros;
+                        multa = Double.parseDouble(txtValorPago.getText()) * 1.02;
+                        juros = multa * 1.0035;
+                        
+                        p.setId(Integer.parseInt(txtIDDividaPag.getText()));
+                        p.setValorPago(juros);
+                        p.setDataPagamento(sqlDate);
+                        dao.create(p);
+                        dao.pagar(p);
+                        txtIDDividaPag.setText("");
+                        txtValorPago.setText("");
+                        txtDatPag.setText("");
+                        
+                        readTable();
+                    }else{
+                        //SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+                        //java.util.Date invoiceDate = formatDate.parse(txtDatPag.getText());
+                        //java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+                        //Pagamento p = new Pagamento();
+                        //PagamentoDAO dao = new PagamentoDAO();
+                        p.setId(Integer.parseInt(txtIDDividaPag.getText()));
+                        p.setValorPago(Double.parseDouble(txtValorPago.getText()));
+                        p.setDataPagamento(sqlDate);
+                        dao.create(p);
+                        dao.pagar(p);
+                        txtIDDividaPag.setText("");
+                        txtValorPago.setText("");
+                        txtDatPag.setText("");
+                        
+                        readTable();
+                    }
+                }
             }
-            
-            txtIDDividaPag.setText("");
-            txtValorPago.setText("");
-            txtDatPag.setText("");
-
-            readTable();
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Verifique se o formato da data está correto.", "ERRO AO ADICIONAR", ERROR);
         }

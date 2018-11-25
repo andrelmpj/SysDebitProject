@@ -6,17 +6,14 @@
 package br.com.sys.model.dao;
 
 import br.com.sys.connection.ConnectionFactory;
-import br.com.sys.model.bean.Cliente;
 import br.com.sys.model.bean.Divida;
 import br.com.sys.model.bean.Pagamento;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import static javax.management.Query.div;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,9 +30,9 @@ public class PagamentoDAO {
                     + ""
                     + "VALUES (?,?,?)");
             
-            stmt.setString(2, p.getDivida().toString());
-            stmt.setString(3, p.getDataPagamento().toString());
-            stmt.setDouble(4, p.getValorPago());
+            stmt.setString(1, p.getDivida().toString());
+            stmt.setString(2, p.getDataPagamento().toString());
+            stmt.setDouble(3, p.getValorPago());
             
             
             stmt.executeUpdate();
@@ -67,6 +64,21 @@ public class PagamentoDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }     
 }
+    
+    public void pagar(Pagamento p){
+        
+        Connection con = ConnectionFactory.getConnection(); 
+        PreparedStatement stmt = null; 
+        try { 
+            stmt = con.prepareStatement("UPDATE divida SET pago = true WHERE id = ?");
+            stmt.setInt(1, p.getDivida().getCodigo());
+        JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
+        } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Erro ao inserir o pagamento na dívida"+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }     
+    }
     public List<Pagamento> read(){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -138,9 +150,7 @@ public class PagamentoDAO {
         }    
     
  }
-        
-        
-        
+
   }
     
 
