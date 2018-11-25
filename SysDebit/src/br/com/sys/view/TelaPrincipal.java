@@ -46,6 +46,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lblSis = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SisDebt - Sistema de Cobranças");
@@ -168,20 +171,29 @@ public class TelaPrincipal extends javax.swing.JFrame {
         DesktopLayout.setHorizontalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DesktopLayout.createSequentialGroup()
-                .addContainerGap(170, Short.MAX_VALUE)
+                .addContainerGap(158, Short.MAX_VALUE)
                 .addComponent(lblSis)
-                .addGap(139, 139, 139))
+                .addGap(151, 151, 151))
         );
         DesktopLayout.setVerticalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DesktopLayout.createSequentialGroup()
-                .addGap(198, 198, 198)
+                .addGap(224, 224, 224)
                 .addComponent(lblSis, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenu1.setText("Cadastrar");
         jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Relatório");
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Pesquisar");
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Sair");
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -304,6 +316,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private static javax.swing.JLabel lblSis;
