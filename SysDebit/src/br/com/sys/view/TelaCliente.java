@@ -34,9 +34,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     public TelaCliente() {
         initComponents();
         //Linhas abaixos chama as configurações da tabela
+        Cliente c = new Cliente();
         DefaultTableModel modelo = (DefaultTableModel) tblCliente.getModel();
         tblCliente.setRowSorter(new TableRowSorter(modelo));
         readTable();
+
     }
     //método a baixo faz a leitura dos dados da tabela 
     public void readTable() { 
@@ -164,6 +166,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         txtIdCliente.setEditable(false);
         txtIdCliente.setText("1");
+        txtIdCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdClienteActionPerformed(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Email:");
@@ -224,7 +231,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -402,10 +409,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         
         readTable();
         
-//        DefaultTableModel dtmCliente = (DefaultTableModel) tblCliente.getModel();
-//        Object[] dados = {txtIdCliente.getText(), txtNomeCli.getText(), txtTelCli.getText(), txtEmailCli.getText(), txtEndCli.getText(), 
-//        txtCidCli.getText(), txtUfCli.getText(), txtCPFCli.getText()};
-//        dtmCliente.addRow(dados);
+  
         
        
         
@@ -469,6 +473,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtTelCli.setText("");
         
         readTable();
+     
               
         }
       
@@ -524,6 +529,12 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             txtUfCli.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 6).toString());
         }
     }//GEN-LAST:event_tblClienteKeyReleased
+
+    private void txtIdClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdClienteActionPerformed
+        // TODO add your handling code here:
+        Cliente c = new Cliente();
+        c.setId(c.getId()+1);
+    }//GEN-LAST:event_txtIdClienteActionPerformed
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

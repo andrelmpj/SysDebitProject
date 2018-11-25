@@ -209,6 +209,11 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                 "ID", "Credor", "Devedor", "Valor", "Data", "Pago"
             }
         ));
+        tableDivida.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDividaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableDivida);
 
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -344,7 +349,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
             d.setCodigo(Integer.parseInt(txtIdDiv.getText()));
             d.setCredor((Cliente) cmbCredor.getSelectedItem());
             d.setDevedor((Cliente) cmbDevedor.getSelectedItem());
-            d.setValorDivida(Integer.parseInt(txtDivValor.getText()));
+            d.setValorDivida(Double.parseDouble(txtDivValor.getText()));
             d.setDataAtualizacao(sqlDate);
             dao.create(d);
             
@@ -425,10 +430,21 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void tableDividaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDividaMouseClicked
+        // TODO add your handling code here:
+         if (tableDivida.getSelectedRow() != -1) { 
+            cmbCredor.setSelectedItem(tableDivida.getValueAt(tableDivida.getSelectedRow(), 1).toString());
+            cmbDevedor.setSelectedItem(tableDivida.getValueAt(tableDivida.getSelectedRow(), 1).toString());
+            txtDivData.setText(tableDivida.getValueAt(tableDivida.getSelectedRow(), 2).toString());
+            txtDivValor.setText(tableDivida.getValueAt(tableDivida.getSelectedRow(), 3).toString());
+            
+        }
+    }//GEN-LAST:event_tableDividaMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
-    private javax.swing.JComboBox<String> cmbCredor;
-    private javax.swing.JComboBox<String> cmbDevedor;
+    private javax.swing.JComboBox<Object> cmbCredor;
+    private javax.swing.JComboBox<Object> cmbDevedor;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

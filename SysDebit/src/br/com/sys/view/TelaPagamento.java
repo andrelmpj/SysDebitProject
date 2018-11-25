@@ -5,6 +5,7 @@
  */
 package br.com.sys.view;
 
+import br.com.sys.model.bean.Divida;
 import br.com.sys.model.bean.Pagamento;
 import br.com.sys.model.dao.PagamentoDAO;
 import java.text.ParseException;
@@ -256,6 +257,13 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
             p.setValorPago(Integer.parseInt(txtValorPago.getText()));
             p.setDataPagamento(sqlDate);
             dao.create(p);
+            
+            Divida d = new Divida();
+            double juros; 
+            if (d.getDataAtualizacao().before(p.getDataPagamento())) {
+                
+            } else {
+            }
             
             txtIDDividaPag.setText("");
             txtValorPago.setText("");

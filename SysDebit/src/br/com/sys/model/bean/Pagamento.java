@@ -15,8 +15,18 @@ public class Pagamento {
     private int id;
     private Divida divida;
     private Date dataPagamento; //verificar o uso correto da classe de data.
+    private double juros;
     private double valorPago;
-   
+
+    public double getJuros() {
+        return juros;
+    }
+
+    public void setJuros(double juros) {
+        this.juros = juros;
+    }
+    
+    
     public int getId() {
         return id;
     }

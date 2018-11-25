@@ -39,7 +39,7 @@ public class UsuarioDAO {
             stmt.setString(2, u.getEmail());
             stmt.setString(3, u.getCargo());
             stmt.setString(4, u.getLogin());
-            stmt.setString(4, u.getSenha());
+            stmt.setString(5, u.getSenha());
             
             
             stmt.executeUpdate();

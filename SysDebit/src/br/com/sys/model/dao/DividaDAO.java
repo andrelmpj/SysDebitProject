@@ -31,7 +31,8 @@ public class DividaDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO divida (id, credor, devedor, data_atualizacao, valor_divida, pago) VALUES (?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO divida (id, credor, devedor, data_atualizacao, valor_divida, pago) "
+                    + "VALUES (?,?,?,?,?)");
             stmt.setInt(1, d.getCodigo());
             stmt.setInt(2, d.getCredor().getId());
             stmt.setInt(3, d.getDevedor().getId());

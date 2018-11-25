@@ -254,6 +254,9 @@
         <Property name="editable" type="boolean" value="false"/>
         <Property name="text" type="java.lang.String" value="1"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdClienteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
@@ -362,7 +365,7 @@
                 <Column editable="false" title="Telefone" type="java.lang.Object"/>
                 <Column editable="false" title="E-mail" type="java.lang.Object"/>
                 <Column editable="false" title="Endere&#xe7;o" type="java.lang.Object"/>
-                <Column editable="false" title="Cidade" type="java.lang.Object"/>
+                <Column editable="true" title="Cidade" type="java.lang.Object"/>
                 <Column editable="false" title="UF" type="java.lang.Object"/>
                 <Column editable="false" title="CPF" type="java.lang.Object"/>
               </Table>

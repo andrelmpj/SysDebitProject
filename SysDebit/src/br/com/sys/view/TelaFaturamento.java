@@ -5,6 +5,11 @@
  */
 package br.com.sys.view;
 
+import br.com.sys.model.bean.Divida;
+import br.com.sys.model.bean.Pagamento;
+import br.com.sys.model.dao.DividaDAO;
+import br.com.sys.model.dao.PagamentoDAO;
+
 /**
  *
  * @author ANDRE
@@ -168,6 +173,13 @@ public class TelaFaturamento extends javax.swing.JInternalFrame {
 
     private void btnPesqActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqActionPerformed1
         // TODO add your handling code here:
+      Pagamento p = new Pagamento();
+      PagamentoDAO pdao = new PagamentoDAO();
+      Divida d = new Divida();
+      DividaDAO ddao = new DividaDAO();
+      
+      
+      
 
     }//GEN-LAST:event_btnPesqActionPerformed1
 
