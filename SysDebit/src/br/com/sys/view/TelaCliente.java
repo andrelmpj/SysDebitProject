@@ -6,13 +6,20 @@
 package br.com.sys.view;
 
 
+import br.com.sys.connection.ConnectionFactory;
 import br.com.sys.model.bean.Cliente;
 import br.com.sys.model.bean.ClienteTableModel;
 
 import br.com.sys.model.dao.ClienteDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -92,7 +99,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -100,7 +106,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        txtIdCliente = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -143,9 +148,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("ID:");
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Nome:*");
 
@@ -163,14 +165,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("CPF*:");
-
-        txtIdCliente.setEditable(false);
-        txtIdCliente.setText("1");
-        txtIdCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdClienteActionPerformed(evt);
-            }
-        });
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Email:");
@@ -281,7 +275,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel10))
                                 .addGap(18, 18, 18)
@@ -302,8 +295,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                     .addComponent(txtTelCli))))
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(78, 78, 78)
+                                            .addGap(246, 246, 246)
                                             .addComponent(jLabel11))
                                         .addComponent(txtNomeCli)
                                         .addComponent(txtEndCli))
@@ -329,10 +321,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
+                        .addComponent(jLabel11)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -388,7 +377,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         
         Cliente c = new Cliente();
         ClienteDAO dao = new ClienteDAO();
-        c.setId(Integer.parseInt(txtIdCliente.getText()));
+        //c.setId(Integer.parseInt(txtIdCliente.getText()));
         c.setNome(txtNomeCli.getText());
         c.setEndereco(txtEndCli.getText());
         c.setEmail(txtEmailCli.getText());
@@ -404,7 +393,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCPFCli.setText("");
         txtCidCli.setText("");
         txtUfCli.setText("");
-        txtIdCliente.setText("");
+        //txtIdCliente.setText("");
         txtTelCli.setText("");
         
         readTable();
@@ -431,7 +420,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCPFCli.setText("");
         txtCidCli.setText("");
         txtUfCli.setText("");
-        txtIdCliente.setText("");
+        //txtIdCliente.setText("");
         txtTelCli.setText("");
         
         readTable();
@@ -469,7 +458,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCPFCli.setText("");
         txtCidCli.setText("");
         txtUfCli.setText("");
-        txtIdCliente.setText("");
+        //txtIdCliente.setText("");
         txtTelCli.setText("");
         
         readTable();
@@ -487,7 +476,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_carregarLista
 
     private void aoAbrir(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_aoAbrir
-        // TODO add your handling code here:
+        //Cliente c = new Cliente(); 
+        //txtIdCliente.setText(Integer.toString(c.getId()));  
     }//GEN-LAST:event_aoAbrir
 
     private void txtPesquisaCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisaCliActionPerformed
@@ -515,6 +505,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             txtCidCli.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 5).toString());
             txtUfCli.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 6).toString());
             txtCPFCli.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 7).toString());
+
         }
     }//GEN-LAST:event_tblClienteMouseClicked
 
@@ -527,14 +518,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             txtEndCli.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 4).toString());
             txtCidCli.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 5).toString());
             txtUfCli.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 6).toString());
+            txtCPFCli.setText(tblCliente.getValueAt(tblCliente.getSelectedRow(), 7).toString());
+
         }
     }//GEN-LAST:event_tblClienteKeyReleased
-
-    private void txtIdClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdClienteActionPerformed
-        // TODO add your handling code here:
-        Cliente c = new Cliente();
-        c.setId(c.getId()+1);
-    }//GEN-LAST:event_txtIdClienteActionPerformed
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -542,7 +529,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -560,7 +546,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCidCli;
     private javax.swing.JTextField txtEmailCli;
     private javax.swing.JTextField txtEndCli;
-    private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtNomeCli;
     private javax.swing.JTextField txtPesquisaCli;
     private javax.swing.JTextField txtTelCli;

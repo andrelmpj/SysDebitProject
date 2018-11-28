@@ -64,6 +64,7 @@ public class ClienteDAO {
                 cliente.setNome(rs.getString("nome"));
                 cliente.setDocumento(rs.getString("documento"));
                 cliente.setEndereco(rs.getString("endereco"));
+                cliente.setCidade(rs.getString("cidade"));
                 cliente.setUf(rs.getString("uf"));
                 cliente.setTelefone(rs.getString("telefone"));
                 cliente.setTipo(rs.getString("tipo"));
@@ -76,6 +77,38 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return clientes;
+    }
+    
+    public Cliente read(int id){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        Cliente cliente = new Cliente();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM cliente where id = ?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setDocumento(rs.getString("documento"));
+                cliente.setEndereco(rs.getString("endereco"));
+                cliente.setCidade(rs.getString("cidade"));
+                cliente.setUf(rs.getString("uf"));
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setTipo(rs.getString("tipo"));
+                cliente.setEmail(rs.getString("email"));
+                
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar os clientes: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return cliente;
     }
     public List<Cliente> readForName(String nome){
         Connection con = ConnectionFactory.getConnection();
@@ -94,6 +127,7 @@ public class ClienteDAO {
                 cliente.setNome(rs.getString("nome"));
                 cliente.setDocumento(rs.getString("documento"));
                 cliente.setEndereco(rs.getString("endereco"));
+                cliente.setCidade(rs.getString("cidade"));
                 cliente.setUf(rs.getString("uf"));
                 cliente.setTelefone(rs.getString("telefone"));
                 cliente.setTipo(rs.getString("tipo"));

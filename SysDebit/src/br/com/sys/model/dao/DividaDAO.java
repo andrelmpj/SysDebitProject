@@ -31,14 +31,15 @@ public class DividaDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO divida (id, credor, devedor, data_atualizacao, valor_divida, pago) "
+            stmt = con.prepareStatement("INSERT INTO divida (credor, devedor, data_atualizacao, valor_divida, pago) "
                     + "VALUES (?,?,?,?,?)");
-            stmt.setInt(1, d.getCodigo());
-            stmt.setInt(2, d.getCredor().getId());
-            stmt.setInt(3, d.getDevedor().getId());
-            stmt.setString(4, d.getDataAtualizacao().toString());
-            stmt.setDouble(5, d.getValorDivida());
-            stmt.setBoolean(6, d.isPago());
+            
+            stmt.setInt(1, d.getCredor().getId());
+            stmt.setInt(2, d.getDevedor().getId());
+            stmt.setString(3, d.getDataAtualizacao().toString());
+            stmt.setDouble(4, d.getValorDivida());
+            stmt.setBoolean(5, d.isPago());
+            stmt.executeUpdate();
             
         JOptionPane.showMessageDialog(null, "Dívida adcionada com sucesso!");
         } catch (SQLException ex) {
@@ -83,12 +84,15 @@ public class DividaDAO {
             
             while (rs.next()){
                 Divida div = new Divida();
+                Cliente c = new Cliente();
                 div.setCodigo(rs.getInt("id"));
-                div.setCredor((Cliente) rs.getObject("credor"));
-                div.setDevedor((Cliente) rs.getObject("devedor"));
-                div.setDataAtualizacao((Date) rs.getObject("data"));
-                div.setValorDivida(rs.getDouble("valorDivida"));
+                ClienteDAO dao = new ClienteDAO();
+                div.setCredor(dao.read(rs.getInt("credor")));
+                div.setDevedor(dao.read(rs.getInt("devedor")));
+                div.setDataAtualizacao((Date) rs.getObject("data_atualizacao"));
+                div.setValorDivida(rs.getDouble("valor_divida"));
                 div.setPago(rs.getBoolean("pago"));
+                //stmt.executeQuery();
                 divida.add(div);
                 
                                      
@@ -114,10 +118,11 @@ public class DividaDAO {
             while (rs.next()){
                 Divida div = new Divida();
                 div.setCodigo(rs.getInt("id"));
-                div.setCredor((Cliente) rs.getObject("credor"));
-                div.setDevedor((Cliente) rs.getObject("devedor"));
-                div.setDataAtualizacao((Date) rs.getObject("data"));
-                div.setValorDivida(rs.getDouble("valorDivida"));
+                ClienteDAO dao = new ClienteDAO();
+                div.setCredor(dao.read(rs.getInt("credor")));
+                div.setDevedor(dao.read(rs.getInt("devedor")));
+                div.setDataAtualizacao((Date) rs.getObject("data_atualizacao"));
+                div.setValorDivida(rs.getDouble("valor_divida"));
                 div.setPago(rs.getBoolean("pago"));
                 divida.add(div);             
             }
@@ -142,10 +147,11 @@ public class DividaDAO {
             while (rs.next()){
                 Divida div = new Divida();
                 div.setCodigo(rs.getInt("id"));
-                div.setCredor((Cliente) rs.getObject("credor"));
-                div.setDevedor((Cliente) rs.getObject("devedor"));
-                div.setDataAtualizacao((Date) rs.getObject("data"));
-                div.setValorDivida(rs.getDouble("valorDivida"));
+                ClienteDAO dao = new ClienteDAO();
+                div.setCredor(dao.read(rs.getInt("credor")));
+                div.setDevedor(dao.read(rs.getInt("devedor")));
+                div.setDataAtualizacao((Date) rs.getObject("data_atualizacao"));
+                div.setValorDivida(rs.getDouble("valor_divida"));
                 div.setPago(rs.getBoolean("pago"));
                 divida.add(div);             
             }
@@ -157,6 +163,40 @@ public class DividaDAO {
         return divida;
     } 
       
+      public Divida readDivida(int id){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        Divida div = new Divida();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM divida WHERE id = ?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                
+                div.setCodigo(rs.getInt("id"));
+                ClienteDAO dao = new ClienteDAO();
+                div.setCredor(dao.read(rs.getInt("credor")));
+                div.setDevedor(dao.read(rs.getInt("devedor")));
+                //div.setCredor((Cliente) rs.getObject("credor"));
+                //div.setDevedor((Cliente) rs.getObject("devedor"));
+                div.setDataAtualizacao((Date) rs.getObject("data_atualizacao"));
+                div.setValorDivida(rs.getDouble("valor_divida"));
+                div.setPago(rs.getBoolean("pago"));
+                
+            }
+            
+            return div;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar as dividas faturadas: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return div;
+    }   
+        
       public void delete(Divida d) { 
           Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;

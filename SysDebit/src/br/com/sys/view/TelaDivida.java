@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.function.Consumer;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +30,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
      */
     public TelaDivida() {
         initComponents();
+        Divida d = new Divida();
         DefaultTableModel modelo = (DefaultTableModel) tableDivida.getModel();
         tableDivida.setRowSorter(new TableRowSorter(modelo));
         preencherJComboBox();
@@ -39,7 +41,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         modelo.setNumRows(0);
         DividaDAO ddao = new DividaDAO();
         
-        for (Divida d : ddao.read()) {
+        ddao.read().forEach((Divida d) -> {
             modelo.addRow(new Object[]{
                 d.getCodigo(),
                 d.getCredor(),
@@ -48,7 +50,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                 d.getDataAtualizacao(),
                 d.isPago()
             });
-        }
+        });
     }
     
     public void readJTableDividasNaoPagas() {
@@ -72,8 +74,8 @@ public class TelaDivida extends javax.swing.JInternalFrame {
     public void preencherJComboBox(){
 	ClienteDAO cdao = new ClienteDAO();
 	for (Cliente cliente : cdao.read()){
-		cmbCredor.addItem(cliente.toString());
-		cmbDevedor.addItem(cliente.toString());
+		cmbCredor.addItem(cliente);
+		cmbDevedor.addItem(cliente);
 	}
     }
     /*public void readJTableForName(String nome) {
@@ -162,6 +164,9 @@ public class TelaDivida extends javax.swing.JInternalFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Data*");
+
+        txtIdDiv.setEditable(false);
+        txtIdDiv.setText("1");
 
         txtDivValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -351,8 +356,10 @@ public class TelaDivida extends javax.swing.JInternalFrame {
             d.setDevedor((Cliente) cmbDevedor.getSelectedItem());
             d.setValorDivida(Double.parseDouble(txtDivValor.getText()));
             d.setDataAtualizacao(sqlDate);
+            d.setPago(false);
             dao.create(d);
             
+          
             txtIdDiv.setText("");
             txtDivValor.setText("");
             txtDivData.setText("");

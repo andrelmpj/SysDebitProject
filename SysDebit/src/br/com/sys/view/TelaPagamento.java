@@ -7,6 +7,7 @@ package br.com.sys.view;
 
 import br.com.sys.model.bean.Divida;
 import br.com.sys.model.bean.Pagamento;
+import br.com.sys.model.dao.DividaDAO;
 import br.com.sys.model.dao.PagamentoDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,6 +89,8 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         lblJuros = new javax.swing.JLabel();
         btnPesquisar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtIdPag = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -152,6 +155,12 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("ID: ");
+
+        txtIdPag.setEditable(false);
+        txtIdPag.setText("1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -168,19 +177,20 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8))
+                            .addComponent(jLabel6)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8)
-                                .addGap(43, 43, 43))
-                            .addComponent(jLabel7))
+                                .addGap(43, 43, 43)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(lblJuros)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtIDDividaPag, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtValorPago, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtDatPag, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtIDDividaPag, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                            .addComponent(txtValorPago, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                            .addComponent(txtDatPag, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                            .addComponent(txtIdPag, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -202,43 +212,49 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtIdPag, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtIDDividaPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtValorPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(14, 14, 14)
+                    .addComponent(jLabel2)
+                    .addComponent(txtValorPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDatPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(lblJuros))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtDatPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton2)
-                            .addComponent(jButton1)
-                            .addComponent(jButton3))
+                            .addComponent(jButton3)))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(btnPesquisar))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(11, 11, 11)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtPesqPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addGap(8, 8, 8)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel7)
+                                    .addComponent(lblJuros)))
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(btnPesquisar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPesqPag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(8, 8, 8)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
         );
@@ -251,44 +267,47 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             Pagamento p = new Pagamento();
             PagamentoDAO dao = new PagamentoDAO();
-            
+            Divida d = new Divida();
+            DividaDAO daoDiv = new DividaDAO();
+            //p = dao.readForIdDividaUnica(Integer.parseInt(txtIDDividaPag.getText()));
+            d = daoDiv.readDivida(Integer.parseInt(txtIDDividaPag.getText()));
             SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
             java.util.Date invoiceDate = formatDate.parse(txtDatPag.getText());
             java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
             
-            if(p.getDivida().isPago()){
-                JOptionPane.showMessageDialog(null, "Esta dívida já está paga", "ERRO AO PAGAR", ERROR);
+            if(d!= null && d.isPago()){
+               JOptionPane.showMessageDialog(null, "Esta dívida já está paga", "ERRO AO PAGAR", ERROR);
             }else{
-                if (Double.parseDouble(txtValorPago.getText()) < p.getDivida().getValorDivida()){
+                if (Double.parseDouble(txtValorPago.getText()) < d.getValorDivida()){
                     JOptionPane.showMessageDialog(null, "O valor digitado é inferior ao valor da dívida", "ERRO AO PAGAR", ERROR);
                 }else{
                     // Se a data de atualização for menor que a data de pagamento.
-                    if(p.getDivida().getDataAtualizacao().compareTo(sqlDate) < 0){
+                    if(d.getDataAtualizacao().compareTo(sqlDate) < 0){
                         double multa, juros;
                         multa = Double.parseDouble(txtValorPago.getText()) * 1.02;
                         juros = multa * 1.0035;
-                        
-                        p.setId(Integer.parseInt(txtIDDividaPag.getText()));
+                        lblJuros.setText(Double.toString(juros));
+                        Divida divida = new Divida();
+                        p.setId(Integer.parseInt(txtIdPag.getText()));
+                        p.setDivida(new Divida(Integer.parseInt(txtIDDividaPag.getText())));
                         p.setValorPago(juros);
                         p.setDataPagamento(sqlDate);
                         dao.create(p);
-                        dao.pagar(p);
-                        txtIDDividaPag.setText("");
-                        txtValorPago.setText("");
-                        txtDatPag.setText("");
-                        
+                       
+//                        txtIDDividaPag.setText("");
+//                        txtValorPago.setText("");
+//                        txtDatPag.setText("");
+//                        
                         readTable();
                     }else{
-                        //SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-                        //java.util.Date invoiceDate = formatDate.parse(txtDatPag.getText());
-                        //java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
-                        //Pagamento p = new Pagamento();
-                        //PagamentoDAO dao = new PagamentoDAO();
-                        p.setId(Integer.parseInt(txtIDDividaPag.getText()));
-                        p.setValorPago(Double.parseDouble(txtValorPago.getText()));
+                       
+                        Divida divida = new Divida();
+                        divida.setCodigo(Integer.parseInt(txtIDDividaPag.getText()));
+                        p.setId(Integer.parseInt(txtIdPag.getText()));
+                        p.setDivida(divida);
+                        //p.setValorPago(juros);
                         p.setDataPagamento(sqlDate);
                         dao.create(p);
-                        dao.pagar(p);
                         txtIDDividaPag.setText("");
                         txtValorPago.setText("");
                         txtDatPag.setText("");
@@ -368,6 +387,7 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
@@ -375,6 +395,7 @@ public class TelaPagamento extends javax.swing.JInternalFrame {
     private javax.swing.JTable tablePagamento;
     private javax.swing.JTextField txtDatPag;
     private javax.swing.JTextField txtIDDividaPag;
+    private javax.swing.JTextField txtIdPag;
     private javax.swing.JTextField txtPesqPag;
     private javax.swing.JTextField txtValorPago;
     // End of variables declaration//GEN-END:variables

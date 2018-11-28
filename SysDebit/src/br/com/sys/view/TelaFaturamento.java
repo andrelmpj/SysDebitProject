@@ -5,10 +5,25 @@
  */
 package br.com.sys.view;
 
+import br.com.sys.connection.ConnectionFactory;
 import br.com.sys.model.bean.Divida;
 import br.com.sys.model.bean.Pagamento;
 import br.com.sys.model.dao.DividaDAO;
 import br.com.sys.model.dao.PagamentoDAO;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -21,7 +36,67 @@ public class TelaFaturamento extends javax.swing.JInternalFrame {
      */
     public TelaFaturamento() {
         initComponents();
+          DefaultTableModel modelo = (DefaultTableModel) tableFaturamento.getModel();
+        tableFaturamento.setRowSorter(new TableRowSorter(modelo));
+        readTable();
     }
+         public void readTable() { 
+        DefaultTableModel modelo = (DefaultTableModel) tableFaturamento.getModel();
+        modelo.setNumRows(0);
+        PagamentoDAO pdao = new PagamentoDAO();
+        
+        for (Pagamento p : pdao.read()) {
+            modelo.addRow(new Object[]{
+             
+                p.getDivida(),
+                p.getDataPagamento(),
+                p.getValorPago(),
+            });
+        }
+    }
+       public void readTableConsulta(Date data_inicio, Date data_final) {
+        
+        DefaultTableModel modelo = (DefaultTableModel) tableFaturamento.getModel();
+        modelo.setNumRows(0);
+        PagamentoDAO pdao = new PagamentoDAO();
+
+        for (Pagamento p : pdao.readForData(data_inicio, data_final)) {
+            modelo.addRow(new Object[]{
+                p.getDivida(),
+                p.getDataPagamento(),
+                p.getValorPago(),
+            });
+        }
+    }
+
+//    
+//      public List<Pagamento> readForConsulta(){
+//        Connection con = ConnectionFactory.getConnection();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//        
+//        List<Pagamento> fat = new ArrayList<>();
+//        try {
+//            stmt = con.prepareStatement("SELECT * FROM pagamento WHERE data_pagamento BETWEEN ? AND ?");
+//            rs = stmt.executeQuery();
+//            
+//            while (rs.next()){
+//                Pagamento pag = new Pagamento();
+//                DividaDAO dao = new DividaDAO();
+//                pag.setDivida(dao.readDivida(rs.getInt("divida")));
+//                pag.setDataPagamento( rs.getDate("data_pagamento"));
+//                pag.setValorPago(rs.getDouble("valor_pago"));
+//                fat.add(pag);
+//                
+//                                     
+//            }
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Erro ao listar os pagamentos: "+ex);
+//        }finally{
+//            ConnectionFactory.closeConnection(con, stmt, rs);
+//        }
+//        return fat;
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,11 +112,9 @@ public class TelaFaturamento extends javax.swing.JInternalFrame {
         txtFatDataDe = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtFatDatAte = new javax.swing.JTextField();
+        txtFatDataAte = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableFaturamento = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
-        lblTotalFat = new javax.swing.JLabel();
         btnPesq = new javax.swing.JButton();
 
         setClosable(true);
@@ -62,49 +135,13 @@ public class TelaFaturamento extends javax.swing.JInternalFrame {
 
         tableFaturamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Credor", "Devedor", "Valor Pago", "Lucro"
+                "ID Divida", "Data do Pagamento", "Valor Pago"
             }
         ));
         jScrollPane1.setViewportView(tableFaturamento);
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("Total:");
-
-        lblTotalFat.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        lblTotalFat.setText("0");
 
         btnPesq.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sys/imagens/searche.png"))); // NOI18N
         btnPesq.addActionListener(new java.awt.event.ActionListener() {
@@ -118,65 +155,73 @@ public class TelaFaturamento extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(234, 234, 234)
-                            .addComponent(jLabel1))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(147, 147, 147)
-                            .addComponent(jLabel2)
-                            .addGap(35, 35, 35)
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtFatDataDe, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtFatDatAte, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addGap(210, 210, 210)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(92, 92, 92)
-                .addComponent(lblTotalFat)
+                .addGap(0, 93, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel2)
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFatDataDe, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFatDataAte, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(117, 117, 117))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(txtFatDataDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)
                         .addComponent(jLabel4)
-                        .addComponent(txtFatDatAte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtFatDataAte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(lblTotalFat))
-                .addGap(0, 93, Short.MAX_VALUE))
+                .addGap(0, 110, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPesqActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqActionPerformed1
-        // TODO add your handling code here:
-      Pagamento p = new Pagamento();
-      PagamentoDAO pdao = new PagamentoDAO();
-      Divida d = new Divida();
-      DividaDAO ddao = new DividaDAO();
+        try {
+            // TODO add your handling code here:
+            SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date invoiceDate = formatDate.parse(txtFatDataDe.getText());
+            java.sql.Date sqlDate = new java.sql.Date(invoiceDate.getTime());
+            
+            SimpleDateFormat formatDate2 = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date invoiceDate2 = formatDate2.parse(txtFatDataAte.getText());
+            java.sql.Date sqlDate2 = new java.sql.Date(invoiceDate2.getTime());
+            
+            Pagamento p = new Pagamento();
+            PagamentoDAO pdao = new PagamentoDAO();
+            
+            pdao.readForData(sqlDate, sqlDate2);
+            
+            
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaFaturamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+  
       
       
       
@@ -190,11 +235,9 @@ public class TelaFaturamento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblTotalFat;
     private javax.swing.JTable tableFaturamento;
-    private javax.swing.JTextField txtFatDatAte;
+    private javax.swing.JTextField txtFatDataAte;
     private javax.swing.JTextField txtFatDataDe;
     // End of variables declaration//GEN-END:variables
 }

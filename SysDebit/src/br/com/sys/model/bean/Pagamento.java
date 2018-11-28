@@ -5,6 +5,7 @@
  */
 package br.com.sys.model.bean;
 import java.sql.Date;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,10 +14,33 @@ import java.sql.Date;
 public class Pagamento {
     
     private int id;
-    private Divida divida;
+    public Divida divida;
     private Date dataPagamento; //verificar o uso correto da classe de data.
     private double juros;
     private double valorPago;
+    private Date data_Inicial;
+    private Date data_Final;
+
+    public Date getData_Inicial() {
+        return data_Inicial;
+    }
+
+    public void setData_Inicial(Date data_Inicial) {
+        this.data_Inicial = data_Inicial;
+    }
+
+    public Date getData_Final() {
+        return data_Final;
+    }
+
+    public void setData_Final(Date data_Final) {
+        this.data_Final = data_Final;
+    }
+    
+    
+    private static final Logger LOG = Logger.getLogger(Pagamento.class.getName());
+    
+    
 
     public double getJuros() {
         return juros;
@@ -57,5 +81,9 @@ public class Pagamento {
 
     public void setValorPago(double valorPago) {
         this.valorPago = valorPago;
+    }
+
+    public Object setDivida() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

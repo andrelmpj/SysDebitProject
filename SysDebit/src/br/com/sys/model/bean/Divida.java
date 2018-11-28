@@ -20,8 +20,14 @@ public class Divida {
     private double valorDivida;
     private boolean pago;
 
+    
     public Divida() {
         pago = false;
+    }
+    
+    public Divida(int codigo) {
+        pago = false;
+        this.codigo = codigo;
     }
     
     public int getCodigo() {
