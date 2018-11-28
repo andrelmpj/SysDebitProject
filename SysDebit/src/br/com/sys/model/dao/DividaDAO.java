@@ -202,8 +202,9 @@ public class DividaDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("DELETE FROM divida WHERE id = ?) ");
+            stmt = con.prepareStatement("DELETE FROM divida WHERE id = ?");
             stmt.setInt(1, d.getCodigo());
+            stmt.executeUpdate();
                     
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
         } catch (SQLException ex) {

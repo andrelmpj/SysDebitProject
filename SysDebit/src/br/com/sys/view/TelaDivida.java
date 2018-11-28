@@ -108,12 +108,10 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtIdDiv = new javax.swing.JTextField();
         txtDivValor = new javax.swing.JTextField();
         cmbCredor = new javax.swing.JComboBox<>();
         cmbDevedor = new javax.swing.JComboBox<>();
@@ -150,9 +148,6 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Dívida");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("ID:");
-
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Credor:*");
 
@@ -164,9 +159,6 @@ public class TelaDivida extends javax.swing.JInternalFrame {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Data*");
-
-        txtIdDiv.setEditable(false);
-        txtIdDiv.setText("1");
 
         txtDivValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,12 +203,25 @@ public class TelaDivida extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Credor", "Devedor", "Valor", "Data", "Pago"
+                "ID", "Credor", "Devedor", "Valor", "Data"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableDivida.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableDividaMouseClicked(evt);
+            }
+        });
+        tableDivida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tableDividaKeyReleased(evt);
             }
         });
         jScrollPane2.setViewportView(tableDivida);
@@ -257,45 +262,36 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(26, 26, 26)))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtDivValor, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtDivData))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txtIdDiv, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-                                .addComponent(jLabel8))
+                                .addComponent(txtDivData, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(cmbDevedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmbCredor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(90, 90, 90)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton5))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(80, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(82, 82, 82)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,10 +299,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtIdDiv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                .addComponent(jLabel8)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -332,7 +325,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                     .addComponent(jButton5))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         pack();
@@ -351,7 +344,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
             
             Divida d = new Divida();
             DividaDAO dao = new DividaDAO();
-            d.setCodigo(Integer.parseInt(txtIdDiv.getText()));
+            d.setCodigo(d.getCodigo());
             d.setCredor((Cliente) cmbCredor.getSelectedItem());
             d.setDevedor((Cliente) cmbDevedor.getSelectedItem());
             d.setValorDivida(Double.parseDouble(txtDivValor.getText()));
@@ -360,10 +353,11 @@ public class TelaDivida extends javax.swing.JInternalFrame {
             dao.create(d);
             
           
-            txtIdDiv.setText("");
+         //   txtIdDiv.setText("");
             txtDivValor.setText("");
             txtDivData.setText("");
             
+                    
             readTable();
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null, "Verifique se o formato da data está correto.", "ERRO AO ADICIONAR", ERROR);
@@ -394,7 +388,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                 
                 dao.update(d);
                 
-                txtIdDiv.setText("");
+                //txtIdDiv.setText("");
                 txtDivValor.setText("");
                 txtDivData.setText("");
                 
@@ -402,7 +396,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
                 
             }
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Verifique se o formato da data está correto.", "ERRO AO ATUALIZAR", ERROR);
+            JOptionPane.showMessageDialog(null, "Data Inválida");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -415,7 +409,7 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         
         dao.delete(d);
         
-        txtIdDiv.setText("");
+       // txtIdDiv.setText("");
         txtDivValor.setText("");
         txtDivData.setText("");
         
@@ -441,12 +435,23 @@ public class TelaDivida extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
          if (tableDivida.getSelectedRow() != -1) { 
             cmbCredor.setSelectedItem(tableDivida.getValueAt(tableDivida.getSelectedRow(), 1).toString());
-            cmbDevedor.setSelectedItem(tableDivida.getValueAt(tableDivida.getSelectedRow(), 1).toString());
-            txtDivData.setText(tableDivida.getValueAt(tableDivida.getSelectedRow(), 2).toString());
+            cmbDevedor.setSelectedItem(tableDivida.getValueAt(tableDivida.getSelectedRow(), 2).toString());
+            txtDivData.setText(tableDivida.getValueAt(tableDivida.getSelectedRow(), 4).toString());
             txtDivValor.setText(tableDivida.getValueAt(tableDivida.getSelectedRow(), 3).toString());
             
         }
     }//GEN-LAST:event_tableDividaMouseClicked
+
+    private void tableDividaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableDividaKeyReleased
+        // TODO add your handling code here:
+          if (tableDivida.getSelectedRow() != -1) { 
+            cmbCredor.setSelectedItem(tableDivida.getValueAt(tableDivida.getSelectedRow(), 1).toString());
+            cmbDevedor.setSelectedItem(tableDivida.getValueAt(tableDivida.getSelectedRow(), 2).toString());
+            txtDivData.setText(tableDivida.getValueAt(tableDivida.getSelectedRow(), 4).toString());
+            txtDivValor.setText(tableDivida.getValueAt(tableDivida.getSelectedRow(), 3).toString());
+            
+        }
+    }//GEN-LAST:event_tableDividaKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
@@ -458,7 +463,6 @@ public class TelaDivida extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -471,6 +475,5 @@ public class TelaDivida extends javax.swing.JInternalFrame {
     private javax.swing.JTable tableDivida;
     private javax.swing.JFormattedTextField txtDivData;
     private javax.swing.JTextField txtDivValor;
-    private javax.swing.JTextField txtIdDiv;
     // End of variables declaration//GEN-END:variables
 }

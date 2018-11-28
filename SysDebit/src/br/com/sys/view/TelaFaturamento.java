@@ -213,6 +213,8 @@ public class TelaFaturamento extends javax.swing.JInternalFrame {
             Pagamento p = new Pagamento();
             PagamentoDAO pdao = new PagamentoDAO();
             
+            
+            
             pdao.readForData(sqlDate, sqlDate2);
             
             

@@ -162,8 +162,9 @@ public class UsuarioDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("DELETE FROM usuario WHERE nome = ?) ");
+            stmt = con.prepareStatement("DELETE FROM usuario WHERE nome = ?");
             stmt.setString(1, u.getNome());
+            stmt.executeUpdate();
                     
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
         } catch (SQLException ex) {

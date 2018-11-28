@@ -73,7 +73,7 @@ public class PagamentoDAO {
         
         List<Pagamento> pagamentos = new ArrayList<>();
         try {
-            stmt = con.prepareStatement("SELECT * FROM pagamento WHERE data_pagamento BETWEEN ? AND ?");
+            stmt = con.prepareStatement("SELECT * FROM pagamento WHERE data_pagamento BETWEEN "+data_inicio+" AND "+data_final+"");
             stmt.setString(1, (data_inicio).toString());
             stmt.setString(2, (data_final).toString());
             rs = stmt.executeQuery();

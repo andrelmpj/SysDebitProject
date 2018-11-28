@@ -264,7 +264,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
                         .addGap(68, 68, 68))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -300,7 +300,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                                         .addComponent(txtNomeCli)
                                         .addComponent(txtEndCli))
                                     .addComponent(txtCPFCli, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 83, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(76, 76, 76)
                                 .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -362,10 +362,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 644, 631);
+        setBounds(0, 0, 659, 648);
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -377,7 +377,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         
         Cliente c = new Cliente();
         ClienteDAO dao = new ClienteDAO();
-        //c.setId(Integer.parseInt(txtIdCliente.getText()));
+        c.setId(c.getId());
         c.setNome(txtNomeCli.getText());
         c.setEndereco(txtEndCli.getText());
         c.setEmail(txtEmailCli.getText());
@@ -420,7 +420,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCPFCli.setText("");
         txtCidCli.setText("");
         txtUfCli.setText("");
-        //txtIdCliente.setText("");
+//        txtIdCliente.setText("");
         txtTelCli.setText("");
         
         readTable();
