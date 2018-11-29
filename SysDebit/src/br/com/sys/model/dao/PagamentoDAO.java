@@ -73,7 +73,7 @@ public class PagamentoDAO {
         
         List<Pagamento> pagamentos = new ArrayList<>();
         try {
-            stmt = con.prepareStatement("SELECT * FROM pagamento WHERE data_pagamento BETWEEN "+data_inicio+" AND "+data_final+"");
+            stmt = con.prepareStatement("SELECT * FROM pagamento WHERE data_pagamento BETWEEN '"+data_inicio+"' AND '"+data_final+"'");
             stmt.setString(1, (data_inicio).toString());
             stmt.setString(2, (data_final).toString());
             rs = stmt.executeQuery();
@@ -96,20 +96,6 @@ public class PagamentoDAO {
     }
       
     
-    public void pagar(Pagamento p){
-        
-        Connection con = ConnectionFactory.getConnection(); 
-        PreparedStatement stmt = null; 
-        try { 
-            stmt = con.prepareStatement("UPDATE divida SET pago = true WHERE id = ?");
-            stmt.setInt(1, p.getDivida().getCodigo());
-        JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
-        } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Erro ao inserir o pagamento na dívida"+ex);
-        }finally{
-            ConnectionFactory.closeConnection(con, stmt);
-        }     
-    }
     public List<Pagamento> read(){
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -167,32 +153,7 @@ public class PagamentoDAO {
         return pagamentos;
     }
       
-        public Pagamento readForIdDividaUnica(int divida){
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
         
-        Pagamento pag = new Pagamento();
-        try {
-            stmt = con.prepareStatement("SELECT * FROM pagamento WHERE divida LIKE ?");
-            stmt.setString(1, "%"+divida+"%");
-            rs = stmt.executeQuery();
-            
-            while (rs.next()){
-                
-                pag.setDivida((Divida) rs.getObject("divida"));
-                pag.setDataPagamento( rs.getDate("data_pagamento"));
-                pag.setValorPago(rs.getDouble("valor_pago"));
-                
-                
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar os pagamentos: "+ex);
-        }finally{
-            ConnectionFactory.closeConnection(con, stmt, rs);
-        }
-        return pag;
-    }
         public void delete(Pagamento p) { 
           Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -200,6 +161,7 @@ public class PagamentoDAO {
         try {
             stmt = con.prepareStatement("DELETE FROM pagamento WHERE id = ?) ");
             stmt.setInt(1, p.getId());
+            stmt.executeUpdate();
                     
             JOptionPane.showMessageDialog(null, "Excluido com sucesso!");
         } catch (SQLException ex) {

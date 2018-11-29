@@ -134,8 +134,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 carregarLista(evt);
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
             }
             public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
             }
             public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -522,6 +524,18 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         }
     }//GEN-LAST:event_tblClienteKeyReleased
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        // TODO add your handling code here:
+           if (TelaPrincipal.getDesktop().getAllFrames().length==0)
+            TelaPrincipal.getLblSis().setVisible(true);
+    }//GEN-LAST:event_formInternalFrameClosed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        // TODO add your handling code here:
+          
+    
+    }//GEN-LAST:event_formInternalFrameClosing
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
